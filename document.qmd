@@ -24,9 +24,9 @@ blue <- "#327291"
 
 ```{webr-r}
 # Parameters
-min <- 2
-max <- 8
-mode <- 6
+min <- 4
+mode <- 8
+max <- 12
 
 # Simulate
 hours_design <- rpert(n = s, min = min, mode = mode, max = max)
@@ -41,9 +41,9 @@ tibble(x = hours_design) |>
 
 ```{webr-r}
 # Parameters
-min <- 2
-max <- 8
-mode <- 6
+min <- 3
+mode <- 4
+max <- 5
 
 # Simulate
 hours_recruitment <- rpert(n = s, min = min, mode = mode, max = max)
@@ -58,9 +58,9 @@ tibble(x = hours_recruitment) |>
 
 ```{webr-r}
 # Parameters
-min <- 2
-max <- 8
-mode <- 6
+min <- 12
+mode <- 16
+max <- 20
 
 # Simulate
 hours_data_analysis <- rpert(n = s, min = min, mode = mode, max = max)
