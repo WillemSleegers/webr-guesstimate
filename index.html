@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,12 +33,23 @@ ul.task-list li input[type="checkbox"] {
 <script src="document_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="document_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="document_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/editor/editor.main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   
 <style type="text/css">
 .monaco-editor pre {
   background-color: unset !important;
+}
+
+.qwebr-editor-toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.qwebr-editor-toolbar-left-buttons, .qwebr-editor-toolbar-right-buttons {
+  display: flex;
 }
 
 .qwebr-non-interactive-loading-container.qwebr-cell-needs-evaluation, .qwebr-non-interactive-loading-container.qwebr-cell-evaluated {
@@ -75,41 +86,46 @@ ul.task-list li input[type="checkbox"] {
   border: 1px solid #EEEEEE;
 }
 
-.qwebr-button-run {
+.qwebr-editor-toolbar {
   background-color: #EEEEEE;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0; /* Extra styling for consistency */
+  padding: 0.2rem 0.5rem;
+}
+
+.qwebr-button {
+  background-color: #EEEEEE;
   display: inline-block;
   font-weight: 400;
-  line-height: 1.5;
-  color: #000;
-  text-align: center;
+  line-height: 1;
   text-decoration: none;
-  -webkit-text-decoration: none;
-  -moz-text-decoration: none;
-  -ms-text-decoration: none;
-  -o-text-decoration: none;
-  /* vertical-align: middle; */ /* Prevents a space from appearing between the code cell and button */
-  -webkit-user-select: none;
+  text-align: center;
+  color: #000;
   border-color: #dee2e6;
   border: 1px solid rgba(0,0,0,0);
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  border-top-right-radius: 0.25rem;
-  border-top-left-radius: 0.25rem;
+  font-size: .9rem;
+  border-radius: 0.25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.qwebr-button-run:hover {
+.qwebr-button:hover {
   color: #000;
-  background-color: #e3e6ea;
-  border-color: #e1e5e9;
+  background-color: #d9dce0;
+  border-color: #c8ccd0;
 }
 
-.qwebr-button-run:disabled,.qwebr-button-run.disabled,fieldset:disabled .qwebr-button-run {
+.qwebr-button:disabled,.qwebr-button.disabled,fieldset:disabled .qwebr-button {
   pointer-events: none;
   opacity: .65
 }
+
+.qwebr-button-reset {
+  color: #696969; /*#4682b4;*/
+}
+
+.qwebr-button-copy {
+  color: #696969;
+}
+
 
 /* Custom styling for RevealJS Presentations*/
 
@@ -161,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
 // Document level settings ----
 
 // Determine if we need to install R packages
-globalThis.qwebrInstallRPackagesList = ['tibble', 'dplyr', 'ggplot2'];
+globalThis.qwebrInstallRPackagesList = ['tibble', 'dplyr', 'ggplot2', 'mc2d'];
 
 // Specify possible locations to search for the repository
 globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -183,7 +199,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"options":{"context":"setup"},"code":"s <- 1000\n\ntheme_set(theme_minimal())\n\nblue <- \"#327291\""},{"id":2,"options":{"context":"interactive"},"code":"nets <- 1000"},{"id":3,"options":{"context":"interactive"},"code":"# Parameters\nmean <- 4.50\nsd <- 0.25\n\n# Simulate\nnet_costs <- rnorm(n = s, mean = mean, sd = sd)\n\n# Visualize\ntibble(x = net_costs) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)"},{"id":4,"options":{"message":"false","context":"interactive"},"code":"# Parameters\nshape1 <- 80\nshape2 <- 20\n\n# Simulate\nnet_usage <- rbeta(s, shape1, shape2)\n\n# Visualize\ntibble(\n  x = net_usage\n) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30) +\n  theme_minimal()"},{"id":5,"options":{"context":"interactive"},"code":"# Parameters\nmeanlog <- 0.5\nsdlog <- 0.3\n\n# Simulate\npeople_per_net <- rlnorm(s, meanlog, sdlog)\n\n# Visualize\ntibble(x = people_per_net) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30) +\n  theme_minimal()"},{"id":6,"options":{"context":"interactive"},"code":"people_protected <- tibble(\n  x = nets * net_usage * people_per_net\n)\n\nggplot(people_protected, aes(x = x)) +\n  geom_histogram(bins = 30) +\n  theme_minimal()"}];
+globalThis.qwebrCellDetails = [{"code":"s <- 1000\n\ntheme_set(theme_minimal())\n\nblue <- \"#327291\"","options":{"comment":"","autorun":"true","output":"true","message":"true","fig-cap":"","fig-width":7,"warning":"true","read-only":"false","results":"markup","out-height":"","label":"unnamed-chunk-1","out-width":"700px","context":"setup","classes":"","dpi":72,"fig-height":5},"id":1},{"code":"# Parameters\nmin <- 2\nmax <- 8\nmode <- 6\n\n# Simulate\nhours_design <- rpert(n = s, min = min, mode = mode, max = max)\n\n# Visualize\ntibble(x = hours_design) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)","options":{"comment":"","autorun":"false","output":"true","message":"true","fig-cap":"","fig-width":7,"warning":"true","read-only":"false","results":"markup","out-height":"","label":"unnamed-chunk-2","out-width":"700px","context":"interactive","classes":"","dpi":72,"fig-height":5},"id":2},{"code":"# Parameters\nmin <- 2\nmax <- 8\nmode <- 6\n\n# Simulate\nhours_recruitment <- rpert(n = s, min = min, mode = mode, max = max)\n\n# Visualize\ntibble(x = hours_recruitment) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)","options":{"comment":"","autorun":"false","output":"true","message":"true","fig-cap":"","fig-width":7,"warning":"true","read-only":"false","results":"markup","out-height":"","label":"unnamed-chunk-3","out-width":"700px","context":"interactive","classes":"","dpi":72,"fig-height":5},"id":3},{"code":"# Parameters\nmin <- 2\nmax <- 8\nmode <- 6\n\n# Simulate\nhours_data_analysis <- rpert(n = s, min = min, mode = mode, max = max)\n\n# Visualize\ntibble(x = hours_data_analysis) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)","options":{"comment":"","autorun":"false","output":"true","message":"true","fig-cap":"","fig-width":7,"warning":"true","read-only":"false","results":"markup","out-height":"","label":"unnamed-chunk-4","out-width":"700px","context":"interactive","classes":"","dpi":72,"fig-height":5},"id":4},{"code":"total_hours <- tibble(\n  hours = hours_design + hours_recruitment + hours_data_analysis\n)\n\nggplot(total_hours, aes(x = hours)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8) +\n  theme_minimal()","options":{"comment":"","autorun":"false","output":"true","message":"true","fig-cap":"","fig-width":7,"warning":"true","read-only":"false","results":"markup","out-height":"","label":"unnamed-chunk-5","out-width":"700px","context":"interactive","classes":"","dpi":72,"fig-height":5},"id":5}];
 
 </script>
 <script type="module">
@@ -305,13 +321,13 @@ globalThis.qwebrCreateHTMLElement = function (
   let qwebrElement;
   switch ( evalType ) {
     case EvalTypes.Interactive:
-      qwebrElement = qwebrCreateInteractiveElement(qwebrCounter);
+      qwebrElement = qwebrCreateInteractiveElement(qwebrCounter, cellData.options);
       break;
     case EvalTypes.Output: 
-      qwebrElement = qwebrCreateNonInteractiveOutputElement(qwebrCounter);
+      qwebrElement = qwebrCreateNonInteractiveOutputElement(qwebrCounter, cellData.options);
       break;
     case EvalTypes.Setup: 
-      qwebrElement = qwebrCreateNonInteractiveSetupElement(qwebrCounter);
+      qwebrElement = qwebrCreateNonInteractiveSetupElement(qwebrCounter, cellData.options);
       break;
     default: 
       qwebrElement = document.createElement('div');
@@ -323,20 +339,65 @@ globalThis.qwebrCreateHTMLElement = function (
 };
 
 // Function that setups the interactive element creation
-globalThis.qwebrCreateInteractiveElement = function (qwebrCounter) {
+globalThis.qwebrCreateInteractiveElement = function (qwebrCounter, qwebrOptions) {
 
   // Create main div element
   var mainDiv = document.createElement('div');
   mainDiv.id = 'qwebr-interactive-area-' + qwebrCounter;
-  mainDiv.className = 'qwebr-interactive-area';
+  mainDiv.className = `qwebr-interactive-area`;
+  if (qwebrOptions.classes) {
+    mainDiv.className += " " + qwebrOptions.classes
+  }
 
-  // Create button element
-  var button = document.createElement('button');
-  button.className = 'btn btn-default qwebr-button-run';
-  button.disabled = true;
-  button.type = 'button';
-  button.id = 'qwebr-button-run-' + qwebrCounter;
-  button.textContent = '🟡 Loading webR...';
+  // Add a unique cell identifier that users can customize
+  if (qwebrOptions.label) {
+    mainDiv.setAttribute('data-id', qwebrOptions.label);
+  }
+
+  // Create toolbar div
+  var toolbarDiv = document.createElement('div');
+  toolbarDiv.className = 'qwebr-editor-toolbar';
+  toolbarDiv.id = 'qwebr-editor-toolbar-' + qwebrCounter;
+
+  // Create a div to hold the left buttons
+  var leftButtonsDiv = document.createElement('div');
+  leftButtonsDiv.className = 'qwebr-editor-toolbar-left-buttons';
+
+  // Create a div to hold the right buttons
+  var rightButtonsDiv = document.createElement('div');
+  rightButtonsDiv.className = 'qwebr-editor-toolbar-right-buttons';
+
+  // Create Run Code button
+  var runCodeButton = document.createElement('button');
+  runCodeButton.className = 'btn btn-default qwebr-button qwebr-button-run';
+  runCodeButton.disabled = true;
+  runCodeButton.type = 'button';
+  runCodeButton.id = 'qwebr-button-run-' + qwebrCounter;
+  runCodeButton.textContent = '🟡 Loading webR...';
+  runCodeButton.title = `Run code (Shift + Enter)`;
+
+  // Append buttons to the leftButtonsDiv
+  leftButtonsDiv.appendChild(runCodeButton);
+
+  // Create Reset button
+  var resetButton = document.createElement('button');
+  resetButton.className = 'btn btn-light btn-xs qwebr-button qwebr-button-reset';
+  resetButton.type = 'button';
+  resetButton.id = 'qwebr-button-reset-' + qwebrCounter;
+  resetButton.title = 'Start over';
+  resetButton.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i>';
+
+  // Create Copy button
+  var copyButton = document.createElement('button');
+  copyButton.className = 'btn btn-light btn-xs qwebr-button qwebr-button-copy';
+  copyButton.type = 'button';
+  copyButton.id = 'qwebr-button-copy-' + qwebrCounter;
+  copyButton.title = 'Copy code';
+  copyButton.innerHTML = '<i class="fa-regular fa-copy"></i>';
+
+  // Append buttons to the rightButtonsDiv
+  rightButtonsDiv.appendChild(resetButton);
+  rightButtonsDiv.appendChild(copyButton);
 
   // Create console area div
   var consoleAreaDiv = document.createElement('div');
@@ -364,8 +425,12 @@ globalThis.qwebrCreateInteractiveElement = function (qwebrCounter) {
   outputGraphAreaDiv.id = 'qwebr-output-graph-area-' + qwebrCounter;
   outputGraphAreaDiv.className = 'qwebr-output-graph-area';
 
+  // Append buttons to the toolbar
+  toolbarDiv.appendChild(leftButtonsDiv);
+  toolbarDiv.appendChild(rightButtonsDiv);
+
   // Append all elements to the main div
-  mainDiv.appendChild(button);
+  mainDiv.appendChild(toolbarDiv);
   consoleAreaDiv.appendChild(editorDiv);
   consoleAreaDiv.appendChild(outputCodeAreaDiv);
   mainDiv.appendChild(consoleAreaDiv);
@@ -375,12 +440,20 @@ globalThis.qwebrCreateInteractiveElement = function (qwebrCounter) {
 }
 
 // Function that adds output structure for non-interactive output
-globalThis.qwebrCreateNonInteractiveOutputElement = function(qwebrCounter) {
+globalThis.qwebrCreateNonInteractiveOutputElement = function(qwebrCounter, qwebrOptions) {
   // Create main div element
   var mainDiv = document.createElement('div');
   mainDiv.id = 'qwebr-noninteractive-area-' + qwebrCounter;
-  mainDiv.className = 'qwebr-noninteractive-area';
-
+  mainDiv.className = `qwebr-noninteractive-area`;
+  if (qwebrOptions.classes) {
+    mainDiv.className += " " + qwebrOptions.classes
+  }
+  
+  // Add a unique cell identifier that users can customize
+  if (qwebrOptions.label) {
+    mainDiv.setAttribute('data-id', qwebrOptions.label);
+  }
+  
   // Create a status container div
   var statusContainer = createLoadingContainer(qwebrCounter);
 
@@ -409,11 +482,20 @@ globalThis.qwebrCreateNonInteractiveOutputElement = function(qwebrCounter) {
 };
 
 // Function that adds a stub in the page to indicate a setup cell was used.
-globalThis.qwebrCreateNonInteractiveSetupElement = function(qwebrCounter) {
+globalThis.qwebrCreateNonInteractiveSetupElement = function(qwebrCounter, qwebrOptions) {
   // Create main div element
   var mainDiv = document.createElement('div');
   mainDiv.id = `qwebr-noninteractive-setup-area-${qwebrCounter}`;
-  mainDiv.className = 'qwebr-noninteractive-setup-area';
+  mainDiv.className = `qwebr-noninteractive-setup-area`;
+  if (qwebrOptions.classes) {
+    mainDiv.className += " " + qwebrOptions.classes
+  }
+
+
+  // Add a unique cell identifier that users can customize
+  if (qwebrOptions.label) {
+    mainDiv.setAttribute('data-id', qwebrOptions.label);
+  }
 
   // Create a status container div
   var statusContainer = createLoadingContainer(qwebrCounter);
@@ -469,7 +551,7 @@ async function qwebrInstallRPackage(packageName) {
 
 // Function to load a single package
 async function qwebrLoadRPackage(packageName) {
-  await mainWebR.evalRVoid(`library(${packageName});`);
+  await mainWebR.evalRVoid(`require('${packageName}', quietly = TRUE)`);
 }
 
 // Generic function to process R packages
@@ -530,9 +612,11 @@ globalThis.qwebrInstance = import(qwebrCustomizedWebROptions.baseURL + "webr.mjs
 
     // Specify the repositories to pull from
     // Note: webR does not use the `repos` option, but instead uses `webr_pkg_repos`
+    // inside of `install()`. However, other R functions still pull from `repos`.
     await mainWebR.evalRVoid(`
       options(
-        webr_pkg_repos = c(${qwebrPackageRepoURLS.map(repoURL => `'${repoURL}'`).join(',')})
+        webr_pkg_repos = c(${qwebrPackageRepoURLS.map(repoURL => `'${repoURL}'`).join(',')}),
+        repos = c(${qwebrPackageRepoURLS.map(repoURL => `'${repoURL}'`).join(',')})
       )
     `);
 
@@ -572,6 +656,16 @@ globalThis.qwebrEscapeHTMLCharacters = function(unsafe) {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
   };
+
+// Passthrough results
+globalThis.qwebrIdentity = function(x) {
+    return x;
+};
+
+// Append a comment
+globalThis.qwebrPrefixComment = function(x, comment) {
+    return `${comment}${x}`;
+};
 
 // Function to parse the pager results
 globalThis.qwebrParseTypePager = async function (msg) { 
@@ -621,13 +715,27 @@ globalThis.qwebrComputeEngine = async function(
     // Create a pager variable for help/file contents
     let pager = [];
 
+    // Handle how output is processed
+    let showMarkup = options.results === "markup" && options.output !== "asis";
+    let processOutput;
+
+    if (showMarkup) {
+        processOutput = qwebrEscapeHTMLCharacters;
+    } else {
+        processOutput = qwebrIdentity;
+    }
+
     // ---- 
+    // Convert from Inches to Pixels by using DPI (dots per inch)
+    // for bitmap devices (dpi * inches = pixels)
+    let fig_width = options["fig-width"] * options["dpi"]
+    let fig_height = options["fig-height"] * options["dpi"]
 
     // Initialize webR
     await mainWebR.init();
 
     // Setup a webR canvas by making a namespace call into the {webr} package
-    await mainWebR.evalRVoid(`webr::canvas(width=${options["fig-width"]}, height=${options["fig-height"]})`);
+    await mainWebR.evalRVoid(`webr::canvas(width=${fig_width}, height=${fig_height})`);
 
     const result = await mainWebRCodeShelter.captureR(codeToRun, {
         withAutoprint: true,
@@ -639,17 +747,27 @@ globalThis.qwebrComputeEngine = async function(
     // -----
 
     // Start attempting to parse the result data
-    try {
+    processResultOutput:try {
 
         // Stop creating images
         await mainWebR.evalRVoid("dev.off()");
+        
+        // Avoid running through output processing
+        if (options.results === "hide" || options.output === "false") { 
+            break processResultOutput; 
+        }
 
         // Merge output streams of STDOUT and STDErr (messages and errors are combined.)
+        // Require both `warning` and `message` to be true to display `STDErr`. 
         const out = result.output
-        .filter(evt => evt.type === "stdout" || evt.type === "stderr")
+        .filter(
+            evt => evt.type === "stdout" || 
+            ( evt.type === "stderr" && (options.warning === "true" && options.message === "true")) 
+        )
         .map((evt, index) => {
             const className = `qwebr-output-code-${evt.type}`;
-            return `<code id="${className}-editor-${elements.id}-result-${index + 1}" class="${className}">${qwebrEscapeHTMLCharacters(evt.data)}</code>`;
+            const outputResult = qwebrPrefixComment(processOutput(evt.data), options.comment);
+            return `<code id="${className}-editor-${elements.id}-result-${index + 1}" class="${className}">${outputResult}</code>`;
         })
         .join("\n");
 
@@ -668,11 +786,15 @@ globalThis.qwebrComputeEngine = async function(
             if (msg.data.event === 'canvasImage') {
                 canvas.getContext('2d').drawImage(msg.data.image, 0, 0);
             } else if (msg.data.event === 'canvasNewPage') {
+
                 // Generate a new canvas element
                 canvas = document.createElement("canvas");
-                canvas.setAttribute("width", 2 * options["fig-width"]);
-                canvas.setAttribute("height", 2 * options["fig-height"]);
-                canvas.style.width = "700px";
+                canvas.setAttribute("width", 2 * fig_width);
+                canvas.setAttribute("height", 2 * fig_height);
+                canvas.style.width = options["out-width"] ? options["out-width"] : `${fig_width}px`;
+                if (options["out-height"]) {
+                    canvas.style.height = options["out-height"];
+                }
                 canvas.style.display = "block";
                 canvas.style.margin = "auto";
             }
@@ -708,7 +830,21 @@ globalThis.qwebrComputeEngine = async function(
 
         // Place the graphics on the canvas
         if (canvas) {
-            elements.outputGraphDiv.appendChild(canvas);
+            // Create figure element
+            const figureElement = document.createElement('figure');
+
+            // Append canvas to figure
+            figureElement.appendChild(canvas);
+
+            if (options['fig-cap']) {
+                // Create figcaption element
+                const figcaptionElement = document.createElement('figcaption');
+                figcaptionElement.innerText = options['fig-cap'];
+                // Append figcaption to figure
+                figureElement.appendChild(figcaptionElement);    
+            }
+
+            elements.outputGraphDiv.appendChild(figureElement);
         }
 
         // Display the pager data
@@ -732,12 +868,18 @@ globalThis.qwebrComputeEngine = async function(
 globalThis.qwebrExecuteCode = async function (
     codeToRun,
     id,
-    evalType = EvalTypes.Interactive,
     options = {}) {
 
     // If options are not passed, we fall back on the bare minimum to handle the computation
     if (qwebrIsObjectEmpty(options)) {
-        options = { "fig-width": 504, "fig-height": 360 };
+        options = { 
+            "context": "interactive", 
+            "fig-width": 7, "fig-height": 5, 
+            "out-width": "700px", "out-height": "", 
+            "dpi": 72,
+            "results": "markup", 
+            "warning": "true", "message": "true",
+        };
     }
 
     // Next, we access the compute areas values
@@ -753,7 +895,7 @@ globalThis.qwebrExecuteCode = async function (
         btn.disabled = true;
     });
 
-    if (evalType == EvalTypes.Interactive) {
+    if (options.context == EvalTypes.Interactive) {
         // Emphasize the active code cell
         elements.runButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin qwebr-icon-status-spinner"></i> <span>Run Code</span>';
     }
@@ -766,7 +908,7 @@ globalThis.qwebrExecuteCode = async function (
         btn.disabled = false;
     });
 
-    if (evalType == EvalTypes.Interactive) {
+    if (options.context == EvalTypes.Interactive) {
         // Revert to the initial code cell state
         elements.runButton.innerHTML = '<i class="fa-solid fa-play qwebr-icon-run-code"></i> <span>Run Code</span>';
     }
@@ -785,37 +927,39 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#number-of-nets" id="toc-number-of-nets" class="nav-link active" data-scroll-target="#number-of-nets">Number of nets</a></li>
-  <li><a href="#net-cost" id="toc-net-cost" class="nav-link" data-scroll-target="#net-cost">Net cost</a></li>
-  <li><a href="#net-usage" id="toc-net-usage" class="nav-link" data-scroll-target="#net-usage">Net usage</a></li>
-  <li><a href="#people-per-net" id="toc-people-per-net" class="nav-link" data-scroll-target="#people-per-net">People per net</a></li>
-  <li><a href="#people-protected" id="toc-people-protected" class="nav-link" data-scroll-target="#people-protected">People protected</a></li>
+  <li><a href="#design" id="toc-design" class="nav-link active" data-scroll-target="#design">Design</a></li>
+  <li><a href="#participant-recruitment" id="toc-participant-recruitment" class="nav-link" data-scroll-target="#participant-recruitment">Participant recruitment</a></li>
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data analysis</a></li>
+  <li><a href="#total-hours" id="toc-total-hours" class="nav-link" data-scroll-target="#total-hours">Total hours</a></li>
   </ul>
 </nav>
 </div>
 <main class="content" id="quarto-document-content">
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
 <script type="module" id="qwebr-monaco-editor-init">
 
   // Configure the Monaco Editor's loader
   require.config({
     paths: {
-      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs'
+      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs'
     }
   });
 </script>
 <script type="module">
 // Global dictionary to store Monaco Editor instances
-const qwebrEditorInstances = {};
+globalThis.qwebrEditorInstances = {};
 
 // Function that builds and registers a Monaco Editor instance    
 globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
   const initialCode = cellData.code;
   const qwebrCounter = cellData.id;
+  const qwebrOptions = cellData.options;
 
   // Retrieve the previously created document elements
   let runButton = document.getElementById(`qwebr-button-run-${qwebrCounter}`);
+  let resetButton = document.getElementById(`qwebr-button-reset-${qwebrCounter}`);
+  let copyButton = document.getElementById(`qwebr-button-copy-${qwebrCounter}`);
   let editorDiv = document.getElementById(`qwebr-editor-${qwebrCounter}`);
   
   // Load the Monaco Editor and create an instance
@@ -832,7 +976,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       },
       fontSize: '17.5pt',              // Bootstrap is 1 rem
       renderLineHighlight: "none",     // Disable current line highlighting
-      hideCursorInOverviewRuler: true  // Remove cursor indictor in right hand side scroll bar
+      hideCursorInOverviewRuler: true,  // Remove cursor indictor in right hand side scroll bar
+      readOnly: qwebrOptions['read-only'] ?? false
     });
 
     // Store the official counter ID to be used in keyboard shortcuts
@@ -841,8 +986,20 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
     // Store the official div container ID
     editor.__qwebrEditorId = `qwebr-editor-${qwebrCounter}`;
 
-    // Store the initial code value
+    // Store the initial code value and options
     editor.__qwebrinitialCode = initialCode;
+    editor.__qwebrOptions = qwebrOptions;
+
+    // Set at the model level the preferred end of line (EOL) character to LF.
+    // This prevent `\r\n` from being given to the webR engine if the user is on Windows.
+    // See details in: https://github.com/coatless/quarto-webr/issues/94
+    // Associated error text: 
+    // Error: <text>:1:7 unexpected input
+
+    // Retrieve the underlying model
+    const model = editor.getModel();
+    // Set EOL for the model
+    model.setEOL(monaco.editor.EndOfLineSequence.LF);
 
     // Dynamically modify the height of the editor window if new lines are added.
     let ignoreEvent = false;
@@ -873,7 +1030,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
 
         // Retrieve all text inside the editor
-        qwebrExecuteCode(editor.getValue(), editor.__qwebrCounter);
+        qwebrExecuteCode(editor.getValue(), editor.__qwebrCounter, editor.__qwebrOptions);
       });
 
       // Add a keydown event listener for CMD/Ctrl+Enter to run selected code
@@ -902,14 +1059,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
           }
           
           // Run the entire line of code.
-          qwebrExecuteCode(currentLine, editor.__qwebrCounter,
-            EvalTypes.Interactive);
+          qwebrExecuteCode(currentLine, editor.__qwebrCounter, editor.__qwebrOptions);
 
           // Move cursor to new position
           editor.setPosition(newPosition);
         } else {
           // Code to run when Ctrl+Enter is pressed with selected code
-          qwebrExecuteCode(selectedText, editor.__qwebrCounter, EvalTypes.Interactive);
+          qwebrExecuteCode(selectedText, editor.__qwebrCounter, editor.__qwebrOptions);
         }
       });
     }
@@ -934,9 +1090,23 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
   // Add a click event listener to the run button
   runButton.onclick = function () {
-    qwebrExecuteCode(editor.getValue(), editor.__qwebrCounter, EvalTypes.Interactive);
+    qwebrExecuteCode(editor.getValue(), editor.__qwebrCounter, editor.__qwebrOptions);
   };
 
+  // Add a click event listener to the reset button
+  copyButton.onclick = function () {
+    // Retrieve current code data
+    const data = editor.getValue();
+    
+    // Write code data onto the clipboard.
+    navigator.clipboard.writeText(data || "");
+  };
+  
+  // Add a click event listener to the copy button
+  resetButton.onclick = function () {
+    editor.setValue(editor.__qwebrinitialCode);
+  };
+  
 }
 </script>
 
@@ -955,33 +1125,30 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
   </div>
   
 
+
 </header>
+
 
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="number-of-nets" class="level2">
-<h2 class="anchored" data-anchor-id="number-of-nets">Number of nets</h2>
+<section id="design" class="level2">
+<h2 class="anchored" data-anchor-id="design">Design</h2>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="net-cost" class="level2">
-<h2 class="anchored" data-anchor-id="net-cost">Net cost</h2>
+<section id="participant-recruitment" class="level2">
+<h2 class="anchored" data-anchor-id="participant-recruitment">Participant recruitment</h2>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="net-usage" class="level2">
-<h2 class="anchored" data-anchor-id="net-usage">Net usage</h2>
+<section id="data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="data-analysis">Data analysis</h2>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="people-per-net" class="level2">
-<h2 class="anchored" data-anchor-id="people-per-net">People per net</h2>
+<section id="total-hours" class="level1">
+<h1>Total hours</h1>
 <div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="people-protected" class="level1">
-<h1>People protected</h1>
-<div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 
@@ -1066,10 +1233,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1079,8 +1245,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1093,6 +1268,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1136,6 +1430,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1161,6 +1456,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1237,7 +1558,7 @@ qwebrCellDetails.map(
 // Identify non-interactive cells (in order)
 const filteredEntries = qwebrCellDetails.filter(entry => {
   const contextOption = entry.options && entry.options.context;
-  return ['output', 'setup'].includes(contextOption);
+  return ['output', 'setup'].includes(contextOption) || (contextOption == "interactive" && entry.options && entry.options.autorun === 'true');
 });
 
 // Condition non-interactive cells to only be run after webR finishes its initialization.
@@ -1273,35 +1594,49 @@ qwebrInstance.then(
       const cellCode = entry.code;
       const qwebrCounter = entry.id;
 
-      // Disable further global status updates
-      const activeContainer = document.getElementById(`qwebr-non-interactive-loading-container-${qwebrCounter}`);
-      activeContainer.classList.remove('qwebr-cell-needs-evaluation');
-      activeContainer.classList.add('qwebr-cell-evaluated');
+      if (['output', 'setup'].includes(evalType)) {
+        // Disable further global status updates
+        const activeContainer = document.getElementById(`qwebr-non-interactive-loading-container-${qwebrCounter}`);
+        activeContainer.classList.remove('qwebr-cell-needs-evaluation');
+        activeContainer.classList.add('qwebr-cell-evaluated');
 
-      // Update status on the code cell
-      const activeStatus = document.getElementById(`qwebr-status-text-${qwebrCounter}`);
-      activeStatus.innerText = " Evaluating hidden code cell...";
-      activeStatus.classList.remove('qwebr-cell-needs-evaluation');
-      activeStatus.classList.add('qwebr-cell-evaluated');
+        // Update status on the code cell
+        const activeStatus = document.getElementById(`qwebr-status-text-${qwebrCounter}`);
+        activeStatus.innerText = " Evaluating hidden code cell...";
+        activeStatus.classList.remove('qwebr-cell-needs-evaluation');
+        activeStatus.classList.add('qwebr-cell-evaluated');
+      }
 
       switch (evalType) {
+        case 'interactive':
+          // TODO: Make this more standardized.
+          // At the moment, we're overriding the interactive status update by pretending its
+          // output-like. 
+          const tempOptions = entry.options;
+          tempOptions["context"] = "output"
+          // Run the code in a non-interactive state that is geared to displaying output
+          await qwebrExecuteCode(`${cellCode}`, qwebrCounter, tempOptions);
+          break;
         case 'output':
           // Run the code in a non-interactive state that is geared to displaying output
-          await qwebrExecuteCode(`${cellCode}`, qwebrCounter, EvalTypes.Output);
+          await qwebrExecuteCode(`${cellCode}`, qwebrCounter, entry.options);
           break;
         case 'setup':
           const activeDiv = document.getElementById(`qwebr-noninteractive-setup-area-${qwebrCounter}`);
-          //activeDiv.textContent = "Computing hidden webR Startup ...";
           // Run the code in a non-interactive state with all output thrown away
           await mainWebR.evalRVoid(`${cellCode}`);
-          //activeDiv.textContent = "";
           break;
         default: 
           break; 
       }
-      // Disable visibility
-      activeContainer.style.visibility = 'hidden';
-      activeContainer.style.display = 'none';
+
+      if (['output', 'setup'].includes(evalType)) {
+        // Disable further global status updates
+        const activeContainer = document.getElementById(`qwebr-non-interactive-loading-container-${qwebrCounter}`);
+        // Disable visibility
+        activeContainer.style.visibility = 'hidden';
+        activeContainer.style.display = 'none';
+      }
     }
   }
 ).then(
@@ -1319,6 +1654,7 @@ qwebrInstance.then(
   }
 );
 </script>
+
 
 
 

@@ -57,7 +57,22 @@ local qwebrCapturedCodeBlocks = {}
 
 -- Initialize a table that contains the default cell-level options
 local qwebRDefaultCellOptions = {
-  ["context"] = "interactive"
+  ["context"] = "interactive",
+  ["warning"] = "true",
+  ["message"] = "true",
+  ["results"] = "markup",
+  ["output"] = "true",
+  ["comment"] = "",
+  ["label"] = "",
+  ["autorun"] = "",
+  ["read-only"] = "false",
+  ["classes"] = "",
+  ["dpi"] = 72,
+  ["fig-cap"] = "",
+  ["fig-width"] = 7,
+  ["fig-height"] = 5,
+  ["out-width"] = "700px",
+  ["out-height"] = ""
 }
 
 ----
@@ -102,6 +117,9 @@ local function mergeCellOptions(localOptions)
 
   -- Override default options with local options
   for key, value in pairs(localOptions) do
+    if type(value) == "string" then
+      value = value:gsub("[\"']", "")
+    end
     mergedOptions[key] = value
   end
 
@@ -383,8 +401,8 @@ local function ensureWebRSetup()
   -- Embed Support Files to Avoid Resource Registration Issues
   -- Note: We're not able to use embed-resources due to the web assembly binary and the potential for additional service worker files.
   quarto.doc.include_text("in-header", [[
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs/editor/editor.main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   ]])
 
   -- Insert the extension styling for defined elements
@@ -512,7 +530,7 @@ local function enableWebRCodeCell(el)
   
   -- Verify the element has attributes and the document type is HTML
   -- not sure if this will work with an epub (may need html:js)
-  if not (el.attr and quarto.doc.is_format("html")) then
+  if not (el.attr and (quarto.doc.is_format("html") or quarto.doc.is_format("markdown"))) then
     return el
   end
 
@@ -547,6 +565,19 @@ local function enableWebRCodeCell(el)
 
   -- Convert webr-specific option commands into attributes
   cellCode, cellOptions = extractCodeBlockOptions(el)
+
+  -- Ensure we have a label representation
+  if cellOptions["label"] == '' then
+    cellOptions["label"] = "unnamed-chunk-" .. qwebrCounter
+  end
+  -- Set autorun to false if interactive
+  if cellOptions["autorun"] == "" then
+    if cellOptions["context"] == "interactive" then
+      cellOptions["autorun"] = "false"
+    else
+      cellOptions["autorun"] = "true"
+    end
+  end
 
   -- Remove space left between options and code contents
   cellCode = removeEmptyLinesUntilContent(cellCode)

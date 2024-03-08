@@ -2,9 +2,10 @@
 title: "WebR + Monte Carlo estimate"
 format: html
 toc: true
+output-file: index.html
 webr: 
   show-startup-message: true
-  packages: ['tibble', 'dplyr', 'ggplot2']
+  packages: ['tibble', 'dplyr', 'ggplot2', 'mc2d']
   autoload-packages: true
 filters:
   - webr
@@ -19,73 +20,66 @@ theme_set(theme_minimal())
 blue <- "#327291"
 ```
 
-## Number of nets
-```{webr-r}
-nets <- 1000
-```
-
-## Net cost
+## Design
 
 ```{webr-r}
 # Parameters
-mean <- 4.50
-sd <- 0.25
+min <- 2
+max <- 8
+mode <- 6
 
 # Simulate
-net_costs <- rnorm(n = s, mean = mean, sd = sd)
+hours_design <- rpert(n = s, min = min, mode = mode, max = max)
 
 # Visualize
-tibble(x = net_costs) |>
+tibble(x = hours_design) |>
   ggplot(aes(x = x)) +
   geom_histogram(bins = 30, fill = blue, alpha = .8)
 ```
 
-## Net usage
-
-```{webr-r}
-#| message: false
-# Parameters
-shape1 <- 80
-shape2 <- 20
-
-# Simulate
-net_usage <- rbeta(s, shape1, shape2)
-
-# Visualize
-tibble(
-  x = net_usage
-) |>
-  ggplot(aes(x = x)) +
-  geom_histogram(bins = 30) +
-  theme_minimal()
-```
-
-## People per net
+## Participant recruitment
 
 ```{webr-r}
 # Parameters
-meanlog <- 0.5
-sdlog <- 0.3
+min <- 2
+max <- 8
+mode <- 6
 
 # Simulate
-people_per_net <- rlnorm(s, meanlog, sdlog)
+hours_recruitment <- rpert(n = s, min = min, mode = mode, max = max)
 
 # Visualize
-tibble(x = people_per_net) |>
+tibble(x = hours_recruitment) |>
   ggplot(aes(x = x)) +
-  geom_histogram(bins = 30) +
-  theme_minimal()
+  geom_histogram(bins = 30, fill = blue, alpha = .8)
 ```
 
-# People protected
+## Data analysis
 
 ```{webr-r}
-people_protected <- tibble(
-  x = nets * net_usage * people_per_net
+# Parameters
+min <- 2
+max <- 8
+mode <- 6
+
+# Simulate
+hours_data_analysis <- rpert(n = s, min = min, mode = mode, max = max)
+
+# Visualize
+tibble(x = hours_data_analysis) |>
+  ggplot(aes(x = x)) +
+  geom_histogram(bins = 30, fill = blue, alpha = .8)
+```
+
+# Total hours
+
+```{webr-r}
+total_hours <- tibble(
+  hours = hours_design + hours_recruitment + hours_data_analysis
 )
 
-ggplot(people_protected, aes(x = x)) +
-  geom_histogram(bins = 30) +
+ggplot(total_hours, aes(x = hours)) +
+  geom_histogram(bins = 30, fill = blue, alpha = .8) +
   theme_minimal()
 ```
 
