@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>WebR + Monte Carlo estimate</title>
+<title>Hour estimation using WebR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -177,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
 // Document level settings ----
 
 // Determine if we need to install R packages
-globalThis.qwebrInstallRPackagesList = ['tibble', 'dplyr', 'ggplot2', 'mc2d'];
+globalThis.qwebrInstallRPackagesList = ['mc2d'];
 
 // Specify possible locations to search for the repository
 globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -199,7 +199,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"options":{"output":"true","results":"markup","dpi":72,"label":"unnamed-chunk-1","warning":"true","message":"true","out-width":"700px","out-height":"","comment":"","classes":"","read-only":"false","fig-cap":"","context":"setup","autorun":"true","fig-height":5,"fig-width":7},"code":"s <- 1000\n\ntheme_set(theme_minimal())\n\nblue <- \"#327291\""},{"id":2,"options":{"output":"true","results":"markup","dpi":72,"label":"unnamed-chunk-2","warning":"true","message":"true","out-width":"700px","out-height":"","comment":"","classes":"","read-only":"false","fig-cap":"","context":"interactive","autorun":"true","fig-height":5,"fig-width":7},"code":"# Parameters\nmin <- 4\nmode <- 8\nmax <- 12\n\n# Simulate\nhours_design <- rpert(n = s, min = min, mode = mode, max = max)\n\n# Visualize\ntibble(x = hours_design) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)"},{"id":3,"options":{"output":"true","results":"markup","dpi":72,"label":"unnamed-chunk-3","warning":"true","message":"true","out-width":"700px","out-height":"","comment":"","classes":"","read-only":"false","fig-cap":"","context":"interactive","autorun":"true","fig-height":5,"fig-width":7},"code":"# Parameters\nmin <- 3\nmode <- 4\nmax <- 5\n\n# Simulate\nhours_recruitment <- rpert(n = s, min = min, mode = mode, max = max)\n\n# Visualize\ntibble(x = hours_recruitment) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)"},{"id":4,"options":{"output":"true","results":"markup","dpi":72,"label":"unnamed-chunk-4","warning":"true","message":"true","out-width":"700px","out-height":"","comment":"","classes":"","read-only":"false","fig-cap":"","context":"interactive","autorun":"true","fig-height":5,"fig-width":7},"code":"# Parameters\nmin <- 12\nmode <- 16\nmax <- 20\n\n# Simulate\nhours_data_analysis <- rpert(n = s, min = min, mode = mode, max = max)\n\n# Visualize\ntibble(x = hours_data_analysis) |>\n  ggplot(aes(x = x)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8)"},{"id":5,"options":{"output":"true","results":"markup","dpi":72,"label":"unnamed-chunk-5","warning":"true","message":"true","out-width":"700px","out-height":"","comment":"","classes":"","read-only":"false","fig-cap":"","context":"interactive","autorun":"true","fig-height":5,"fig-width":7},"code":"total_hours <- tibble(\n  hours = hours_design + hours_recruitment + hours_data_analysis\n)\n\nggplot(total_hours, aes(x = hours)) +\n  geom_histogram(bins = 30, fill = blue, alpha = .8) +\n  theme_minimal()"}];
+globalThis.qwebrCellDetails = [{"code":"# Constants\ns <- 1000\n\n# Hours\nhours_design <- rpert(n = s, min = 4, mode = 8, max = 12)\nhours_recruitment <- rpert(n = s, min = 3, mode = 4, max = 5)\nhours_data_analysis <- rpert(n = s, min = 12, mode = 16, max = 20)\n\nhours <- hours_design + hours_recruitment + hours_data_analysis\n\n# Visualize\nhist(hours)","options":{"context":"interactive","warning":"true","classes":"","fig-height":5,"autorun":"true","fig-cap":"","read-only":"false","out-width":"700px","message":"true","results":"markup","output":"true","label":"unnamed-chunk-1","fig-width":7,"comment":"","dpi":72,"out-height":""},"id":1}];
 
 </script>
 <script type="module">
@@ -919,21 +919,10 @@ globalThis.qwebrExecuteCode = async function (
 
 </head>
 
-<body>
+<body class="fullcontent">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#design" id="toc-design" class="nav-link active" data-scroll-target="#design">Design</a></li>
-  <li><a href="#participant-recruitment" id="toc-participant-recruitment" class="nav-link" data-scroll-target="#participant-recruitment">Participant recruitment</a></li>
-  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data analysis</a></li>
-  <li><a href="#total-hours" id="toc-total-hours" class="nav-link" data-scroll-target="#total-hours">Total hours</a></li>
-  </ul>
-</nav>
-</div>
+
 <main class="content" id="quarto-document-content">
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
 <script type="module" id="qwebr-monaco-editor-init">
@@ -1112,7 +1101,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">WebR + Monte Carlo estimate</h1>
+<h1 class="title">Hour estimation using WebR</h1>
 </div>
 
 
@@ -1129,26 +1118,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
+<section id="hour-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="hour-estimation">Hour estimation</h2>
 <div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="design" class="level2">
-<h2 class="anchored" data-anchor-id="design">Design</h2>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="participant-recruitment" class="level2">
-<h2 class="anchored" data-anchor-id="participant-recruitment">Participant recruitment</h2>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="data-analysis">Data analysis</h2>
-<div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="total-hours" class="level1">
-<h1>Total hours</h1>
-<div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 

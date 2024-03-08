@@ -1,89 +1,30 @@
 ---
-title: "WebR + Monte Carlo estimate"
+title: "Hour estimation using WebR"
 format: html
-toc: true
 output-file: index.html
+fig-dpi: 600
 webr: 
   show-startup-message: true
-  packages: ['tibble', 'dplyr', 'ggplot2', 'mc2d']
+  packages: ['mc2d']
   autoload-packages: true
 filters:
   - webr
 ---
 
+## Hour estimation
+
 ```{webr-r}
-#| context: setup
+#| autorun: true
+# Constants
 s <- 1000
 
-theme_set(theme_minimal())
+# Hours
+hours_design <- rpert(n = s, min = 4, mode = 8, max = 12)
+hours_recruitment <- rpert(n = s, min = 3, mode = 4, max = 5)
+hours_data_analysis <- rpert(n = s, min = 12, mode = 16, max = 20)
 
-blue <- "#327291"
-```
-
-## Design
-
-```{webr-r}
-#| autorun: true
-# Parameters
-min <- 4
-mode <- 8
-max <- 12
-
-# Simulate
-hours_design <- rpert(n = s, min = min, mode = mode, max = max)
+hours <- hours_design + hours_recruitment + hours_data_analysis
 
 # Visualize
-tibble(x = hours_design) |>
-  ggplot(aes(x = x)) +
-  geom_histogram(bins = 30, fill = blue, alpha = .8)
+hist(hours)
 ```
-
-## Participant recruitment
-
-```{webr-r}
-#| autorun: true
-# Parameters
-min <- 3
-mode <- 4
-max <- 5
-
-# Simulate
-hours_recruitment <- rpert(n = s, min = min, mode = mode, max = max)
-
-# Visualize
-tibble(x = hours_recruitment) |>
-  ggplot(aes(x = x)) +
-  geom_histogram(bins = 30, fill = blue, alpha = .8)
-```
-
-## Data analysis
-
-```{webr-r}
-#| autorun: true
-# Parameters
-min <- 12
-mode <- 16
-max <- 20
-
-# Simulate
-hours_data_analysis <- rpert(n = s, min = min, mode = mode, max = max)
-
-# Visualize
-tibble(x = hours_data_analysis) |>
-  ggplot(aes(x = x)) +
-  geom_histogram(bins = 30, fill = blue, alpha = .8)
-```
-
-# Total hours
-
-```{webr-r}
-#| autorun: true
-total_hours <- tibble(
-  hours = hours_design + hours_recruitment + hours_data_analysis
-)
-
-ggplot(total_hours, aes(x = hours)) +
-  geom_histogram(bins = 30, fill = blue, alpha = .8) +
-  theme_minimal()
-```
-
