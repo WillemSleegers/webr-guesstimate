@@ -19,11 +19,12 @@ filters:
 s <- 1000
 
 # Hours
-hours_design <- rpert(n = s, min = 4, mode = 8, max = 12)
-hours_recruitment <- rpert(n = s, min = 3, mode = 4, max = 5)
-hours_data_analysis <- rpert(n = s, min = 12, mode = 16, max = 20)
+hours_design <- rpert(s, min = 4, mode = 8, max = 12)
+hours_recruitment <- rpert(s, min = 3, mode = 4, max = 5)
+hours_data_analysis <- rpert(s, min = 12, mode = 16, max = 20)
 
-hours <- hours_design + hours_recruitment + hours_data_analysis
+hours <- hours_design + hours_recruitment +
+  hours_data_analysis
 
 # Visualize
 hist(hours)

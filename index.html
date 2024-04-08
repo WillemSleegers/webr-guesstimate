@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="document_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="document_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="document_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/editor/editor.main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
 <style type="text/css">
 .monaco-editor pre {
@@ -74,43 +74,72 @@ ul.task-list li input[type="checkbox"] {
   color: #0d9c29
 }
 
-.qwebr-output-code-stdout {
+body.quarto-light .qwebr-output-code-stdout {
   color: #111;
+}
+
+body.quarto-dark .qwebr-output-code-stdout {
+  color: #EEE;
 }
 
 .qwebr-output-code-stderr {
   color: #db4133;
 }
 
-.qwebr-editor {
+body.quarto-light .qwebr-editor {
   border: 1px solid #EEEEEE;
 }
 
-.qwebr-editor-toolbar {
+body.quarto-light .qwebr-editor-toolbar {
   background-color: #EEEEEE;
   padding: 0.2rem 0.5rem;
 }
 
+body.quarto-dark .qwebr-editor {
+  border: 1px solid #111;
+}
+
+body.quarto-dark .qwebr-editor-toolbar {
+  background-color: #111;
+  padding: 0.2rem 0.5rem;
+}
+
 .qwebr-button {
-  background-color: #EEEEEE;
   display: inline-block;
   font-weight: 400;
   line-height: 1;
   text-decoration: none;
   text-align: center;
-  color: #000;
-  border-color: #dee2e6;
-  border: 1px solid rgba(0,0,0,0);
   padding: 0.375rem 0.75rem;
   font-size: .9rem;
   border-radius: 0.25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.qwebr-button:hover {
+body.quarto-light .qwebr-button {
+  background-color: #EEEEEE;
+  color: #000;
+  border-color: #dee2e6;
+  border: 1px solid rgba(0,0,0,0);
+}
+
+body.quarto-dark .qwebr-button {
+  background-color: #111;
+  color: #EEE;
+  border-color: #dee2e6;
+  border: 1px solid rgba(0,0,0,0);
+}
+
+body.quarto-light .qwebr-button:hover {
   color: #000;
   background-color: #d9dce0;
   border-color: #c8ccd0;
+}
+
+body.quarto-dark .qwebr-button:hover {
+  color: #d9dce0;
+  background-color: #323232;
+  border-color: #d9dce0;
 }
 
 .qwebr-button:disabled,.qwebr-button.disabled,fieldset:disabled .qwebr-button {
@@ -150,8 +179,12 @@ ul.task-list li input[type="checkbox"] {
   display: contents;
 }
 
-.reveal pre div code.qwebr-output-code-stdout {
+body.reveal.quarto-light pre div code.qwebr-output-code-stdout {
   color: #111;
+}
+
+body.reveal.quarto-dark pre div code.qwebr-output-code-stdout {
+  color: #EEEEEE;
 }
 
 .reveal pre div code.qwebr-output-code-stderr {
@@ -160,10 +193,16 @@ ul.task-list li input[type="checkbox"] {
 
 
 /* Create a border around console and output (does not effect graphs) */
-.reveal div.qwebr-console-area {
+body.reveal.quarto-light div.qwebr-console-area {
   border: 1px solid #EEEEEE;
   box-shadow: 2px 2px 10px #EEEEEE;
 }
+
+body.reveal.quarto-dark div.qwebr-console-area {
+  border: 1px solid #111;
+  box-shadow: 2px 2px 10px #111;
+}
+
 
 /* Cap output height and allow text to scroll */
 /* TODO: Is there a better way to fit contents/max it parallel to the monaco editor size? */
@@ -192,14 +231,14 @@ globalThis.qwebrShowHeaderMessage = false;
 
 // Describe the webR settings that should be used
 globalThis.qwebrCustomizedWebROptions = {
-  "baseURL": "https://webr.r-wasm.org/v0.2.2/",
+  "baseURL": "https://webr.r-wasm.org/v0.3.1/",
   "serviceWorkerUrl": "",
   "homedir": "/home/web_user", 
   "channelType": "ChannelType.Automatic"
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# Constants\ns <- 1000\n\n# Hours\nhours_design <- rpert(n = s, min = 4, mode = 8, max = 12)\nhours_recruitment <- rpert(n = s, min = 3, mode = 4, max = 5)\nhours_data_analysis <- rpert(n = s, min = 12, mode = 16, max = 20)\n\nhours <- hours_design + hours_recruitment + hours_data_analysis\n\n# Visualize\nhist(hours)","options":{"context":"interactive","warning":"true","classes":"","fig-height":5,"autorun":"true","fig-cap":"","read-only":"false","out-width":"700px","message":"true","results":"markup","output":"true","label":"unnamed-chunk-1","fig-width":7,"comment":"","dpi":72,"out-height":""},"id":1}];
+globalThis.qwebrCellDetails = [{"options":{"warning":"true","autorun":"true","editor-max-height":"","comment":"","dpi":72,"message":"true","read-only":"false","context":"interactive","label":"unnamed-chunk-1","fig-height":5,"out-width":"700px","classes":"","fig-cap":"","output":"true","results":"markup","editor-quick-suggestions":"false","fig-width":7,"out-height":""},"id":1,"code":"# Constants\ns <- 1000\n\n# Hours\nhours_design <- rpert(s, min = 4, mode = 8, max = 12)\nhours_recruitment <- rpert(s, min = 3, mode = 4, max = 5)\nhours_data_analysis <- rpert(s, min = 12, mode = 16, max = 20)\n\nhours <- hours_design + hours_recruitment +\n  hours_data_analysis\n\n# Visualize\nhist(hours)"}];
 
 </script>
 <script type="module">
@@ -707,10 +746,8 @@ globalThis.qwebrComputeEngine = async function(
     // 1. We setup a canvas device to write to by making a namespace call into the {webr} package
     // 2. We use values inside of the options array to set the figure size.
     // 3. We capture the output stream information (STDOUT and STERR)
-    // 4. While parsing the results, we disable image creation.
-
-    // Create a canvas variable for graphics
-    let canvas = undefined;
+    // 4. We disable the current device's image creation.
+    // 5. Piece-wise parse the results into the different output areas
 
     // Create a pager variable for help/file contents
     let pager = [];
@@ -735,9 +772,14 @@ globalThis.qwebrComputeEngine = async function(
     await mainWebR.init();
 
     // Setup a webR canvas by making a namespace call into the {webr} package
-    await mainWebR.evalRVoid(`webr::canvas(width=${fig_width}, height=${fig_height})`);
-
-    const result = await mainWebRCodeShelter.captureR(codeToRun, {
+    // Evaluate the R code
+    // Remove the active canvas silently
+    const result = await mainWebRCodeShelter.captureR(
+        `webr::canvas(width=${fig_width}, height=${fig_height}, capture = TRUE)
+        .webr_cvs_id <- dev.cur()
+        ${codeToRun}
+        invisible(dev.off(.webr_cvs_id))
+        `, {
         withAutoprint: true,
         captureStreams: true,
         captureConditions: false//,
@@ -748,9 +790,6 @@ globalThis.qwebrComputeEngine = async function(
 
     // Start attempting to parse the result data
     processResultOutput:try {
-
-        // Stop creating images
-        await mainWebR.evalRVoid("dev.off()");
         
         // Avoid running through output processing
         if (options.results === "hide" || options.output === "false") { 
@@ -773,33 +812,10 @@ globalThis.qwebrComputeEngine = async function(
 
 
         // Clean the state
-        // We're now able to process both graphics and pager events.
+        // We're now able to process pager events.
         // As a result, we cannot maintain a true 1-to-1 output order 
         // without individually feeding each line
         const msgs = await mainWebR.flush();
-
-        // Output each image event stored
-        msgs.forEach((msg) => {
-        // Determine if old canvas can be used or a new canvas is required.
-        if (msg.type === 'canvas'){
-            // Add image to the current canvas
-            if (msg.data.event === 'canvasImage') {
-                canvas.getContext('2d').drawImage(msg.data.image, 0, 0);
-            } else if (msg.data.event === 'canvasNewPage') {
-
-                // Generate a new canvas element
-                canvas = document.createElement("canvas");
-                canvas.setAttribute("width", 2 * fig_width);
-                canvas.setAttribute("height", 2 * fig_height);
-                canvas.style.width = options["out-width"] ? options["out-width"] : `${fig_width}px`;
-                if (options["out-height"]) {
-                    canvas.style.height = options["out-height"];
-                }
-                canvas.style.display = "block";
-                canvas.style.margin = "auto";
-            }
-        } 
-        });
 
         // Use `map` to process the filtered "pager" events asynchronously
         const pager = await Promise.all(
@@ -828,13 +844,37 @@ globalThis.qwebrComputeEngine = async function(
 
         elements.outputCodeDiv.appendChild(pre);
 
-        // Place the graphics on the canvas
-        if (canvas) {
+        // Determine if we have graphs to display
+        if (result.images.length > 0) {
             // Create figure element
             const figureElement = document.createElement('figure');
 
-            // Append canvas to figure
-            figureElement.appendChild(canvas);
+            // Place each rendered graphic onto a canvas element
+            result.images.forEach((img) => {
+                // Construct canvas for object
+                const canvas = document.createElement("canvas");
+
+                // Set canvas size to image
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Apply output truncations
+                canvas.style.width = options["out-width"] ? options["out-width"] : `${fig_width}px`;
+                if (options["out-height"]) {
+                    canvas.style.height = options["out-height"];
+                }
+
+                // Apply styling
+                canvas.style.display = "block";
+                canvas.style.margin = "auto";
+
+                // Draw image onto Canvas
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+          
+                // Append canvas to figure output area
+                figureElement.appendChild(canvas);
+            });
 
             if (options['fig-cap']) {
                 // Create figcaption element
@@ -924,19 +964,63 @@ globalThis.qwebrExecuteCode = async function (
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 
 <main class="content" id="quarto-document-content">
-<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs/loader.js"></script>
 <script type="module" id="qwebr-monaco-editor-init">
 
   // Configure the Monaco Editor's loader
   require.config({
     paths: {
-      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs'
+      'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.47.0/min/vs'
     }
   });
 </script>
 <script type="module">
-// Global dictionary to store Monaco Editor instances
-globalThis.qwebrEditorInstances = {};
+// Function to update Monaco Editors when body class changes
+function updateMonacoEditorsOnBodyClassChange() {
+    // Select the body element
+    const body = document.querySelector('body');
+
+    // Options for the observer (which mutations to observe)
+    const observerOptions = {
+        attributes: true,  // Observe changes to attributes
+        attributeFilter: ['class'] // Only observe changes to the 'class' attribute
+    };
+
+    // Callback function to execute when mutations are observed
+    const bodyClassChangeCallback = function(mutationsList, observer) {
+        for(let mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                // Class attribute has changed
+                // Update all Monaco Editors on the page
+                updateMonacoEditorTheme();
+            }
+        }
+    };
+
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(bodyClassChangeCallback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(body, observerOptions);
+}
+
+// Function to update all instances of Monaco Editors on the page
+function updateMonacoEditorTheme() {
+    // Determine what VS Theme to use
+    const vsThemeToUse = document.body.classList.contains("quarto-dark") ? 'vs-dark' : 'vs' ;
+
+    // Iterate through all initialized Monaco Editors
+    qwebrEditorInstances.forEach( function(editorInstance) { 
+        editorInstance.updateOptions({ theme: vsThemeToUse }); 
+    });
+}
+
+// Call the function to start observing changes to body class
+updateMonacoEditorsOnBodyClassChange();
+</script>
+<script type="module">
+// Global array to store Monaco Editor instances
+globalThis.qwebrEditorInstances = [];
 
 // Function that builds and registers a Monaco Editor instance    
 globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
@@ -966,7 +1050,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       fontSize: '17.5pt',              // Bootstrap is 1 rem
       renderLineHighlight: "none",     // Disable current line highlighting
       hideCursorInOverviewRuler: true,  // Remove cursor indictor in right hand side scroll bar
-      readOnly: qwebrOptions['read-only'] ?? false
+      readOnly: qwebrOptions['read-only'] ?? false,
+      quickSuggestions: qwebrOptions['editor-quick-suggestions'] ?? false
     });
 
     // Store the official counter ID to be used in keyboard shortcuts
@@ -993,10 +1078,18 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
     // Dynamically modify the height of the editor window if new lines are added.
     let ignoreEvent = false;
     const updateHeight = () => {
-      const contentHeight = editor.getContentHeight();
+      // Increment editor height by 2 to prevent vertical scroll bar from appearing
+      const contentHeight = editor.getContentHeight() + 2;
+
+      // Retrieve editor-max-height option
+      const maxEditorHeight = qwebrOptions['editor-max-height'];
+
+      // If editor-max-height is missing, allow infinite growth. Otherwise, threshold.
+      const editorHeight = !maxEditorHeight ?  contentHeight : Math.min(contentHeight, maxEditorHeight);
+
       // We're avoiding a width change
       //editorDiv.style.width = `${width}px`;
-      editorDiv.style.height = `${contentHeight}px`;
+      editorDiv.style.height = `${editorHeight}px`;
       try {
         ignoreEvent = true;
 
